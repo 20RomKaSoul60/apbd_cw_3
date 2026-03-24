@@ -9,7 +9,10 @@ public abstract class User
             return this.name;
         }
     }
-    private int id
+
+    private long id = Random.Shared.NextInt64(1,1000);
+    
+    private long Id
     {
         get
         {
