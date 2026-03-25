@@ -30,6 +30,14 @@ public abstract class Device
         set { this.status = value; }
     }
 
+    private string state;
+
+    public string State
+    {
+        get { return this.state; }
+        set { this.state = value; }
+    }
+
     private string type;
 
     public string Type
