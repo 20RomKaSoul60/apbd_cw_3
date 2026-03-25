@@ -3,12 +3,9 @@ namespace APBD3;
 public class Projector : Device
 {
 
-    private string type_of_device = "Projector";
 
-    private string Type
+    public Projector(string name, string status, long year, string producer) : base(name, status, year, producer)
     {
-        get { return type_of_device; }
+        this.Type = "Projector";
     }
-
-    public Projector(string name, string status, long year, string producer) : base(name,status,year,producer) {}
 }

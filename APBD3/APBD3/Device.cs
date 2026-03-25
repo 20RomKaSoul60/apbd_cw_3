@@ -21,13 +21,21 @@ public abstract class Device
     {
         set { this.producer = value;}
         get{ return this.producer;} }
+    
+    private string status;
 
-
-
-    private string status
+    public string Status
     {
         get { return this.status; }
         set { this.status = value; }
+    }
+
+    private string type;
+
+    public string Type
+    {
+        get { return this.type; }
+        set { this.type = value; }
     }
 
 
