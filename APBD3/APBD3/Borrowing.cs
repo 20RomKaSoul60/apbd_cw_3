@@ -138,5 +138,10 @@ public class Borrowing
         return days;
     }
 
+    public string toString()
+    {
+        return "Borrowing: " + this.id + ", Status: " + this.status+"\nBorrower: "+this.id_of_borrower+"\nBorrowed device: "+this.Id_of_device;
+    }
+
 
 }

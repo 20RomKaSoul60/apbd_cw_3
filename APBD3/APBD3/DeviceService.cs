@@ -67,6 +67,32 @@ public class DeviceService
         return avialable_devices;
     }
 
+    public List<Borrowing> get_active_borrowings(long borrower)
+    {
+        List<Borrowing> active_borrowings = new List<Borrowing>();
+        foreach (var borrowing in _borrowings)
+        {
+            if (borrowing.Status == "ACTIVE" && borrowing.Id_of_borrower == borrower)
+            {
+                active_borrowings.Add(borrowing);
+            }
+        }
+        return active_borrowings;
+    }
+
+    public List<Borrowing> get_delayed_borrowings()
+    {
+        List<Borrowing> delayed = new List<Borrowing>();
+        foreach (var borrowing in _borrowings)
+        {
+            if(!borrowing.on_time){
+                delayed.Add(borrowing);
+                
+            }
+        }
+        return delayed;
+    }
+
     public bool borrow(long borrower,string type)
     {
         if (get_available_devices(filter(type)).Count == 0)
@@ -131,6 +157,16 @@ public class DeviceService
         
         debts.Add(new Debt(borrower,device_identifier,amount_of_debt));
 
+    }
+
+    public void summarise()
+    {
+        Console.WriteLine("General amount of borrowings: "+_borrowings.Count());
+        foreach (var borrowing in _borrowings)
+        {
+            Console.WriteLine(borrowing.toString()+"\n");
+        }
+        Console.WriteLine("From them are delayed: "+get_delayed_borrowings().Count());
     }
 
 
