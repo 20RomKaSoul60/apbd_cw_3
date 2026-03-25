@@ -106,38 +106,6 @@ public class Borrowing
         this.status = status;
 
     }
-
-    private bool need_a_debt;
-    public bool Need_a_debt
-    {
-        get { return this.need_a_debt; }
-        set { this.need_a_debt = value; }
-
-    }
-    
-
-    public void punishment()
-    {
-        if (!on_time)
-        {
-            if (int.Parse(moment_when_given_back.Split('/')[0]) > int.Parse(moment_to.Split('/')[0]) || int.Parse(moment_when_given_back.Split('/')[1]) > int.Parse(moment_to.Split('/')[1]))
-            {
-                need_a_debt = true;
-            }
-        }
-    }
-
-    public int days(string moment_from, string moment_to)
-    {
-        int days = 0;
-        days+= int.Parse(moment_to.Split('/')[2]) - int.Parse(moment_from.Split('/')[2]);
-        days+= int.Parse(moment_to.Split('/')[1]) - int.Parse(moment_from.Split('/')[1]);
-        days+= int.Parse(moment_to.Split('/')[0]) - int.Parse(moment_from.Split('/')[0]);
-        
-        
-        return days;
-    }
-
     public string toString()
     {
         return "Borrowing: " + this.id + ", Status: " + this.status+"\nBorrower: "+this.id_of_borrower+"\nBorrowed device: "+this.Id_of_device;

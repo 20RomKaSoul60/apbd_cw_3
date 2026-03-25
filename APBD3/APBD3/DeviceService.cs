@@ -1,27 +1,12 @@
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace APBD3;
-
 public class DeviceService
 {
-     class Debt
-    {
-        private long borrower;
-        private long device_identifier;
-        private float debt_amount;
-
-        public Debt(long identifier,long device_identifier,float amount)
-        {
-            this.borrower = identifier;
-            this.device_identifier = device_identifier;
-            this.debt_amount = amount;
-        }
-
-    }
+     
     
     private List<Device> list_of_devices = new List<Device>();
     private List<Borrowing> _borrowings = new List<Borrowing>();
-    private List<Debt> debts = new List<Debt>();
+    private List<Punishment.Debt> debts = new List<Punishment.Debt>();
 
     private float price_for_damage = 600.0f;
     private float price_for_delay = 25.50f;
@@ -39,30 +24,6 @@ public class DeviceService
             
         }
         return filtered_by;
-    }
-
-    public bool check(long borrower)
-    {
-        bool answer = true;
-        int counter = 0;
-        foreach (var borrowing in _borrowings)
-        {
-            if (borrowing.Id_of_borrower == borrower)
-            {
-                counter++;
-            }
-        }
-
-        if (UserService.get_role(borrower) == "Student")
-        {
-            answer = counter <= 2;
-        }else if (UserService.get_role(borrower) == "Employee")
-        {
-            answer = counter <= 5;
-        }
-
-        return answer;
-
     }
     public void addDevice(Device device)
     {
@@ -119,7 +80,7 @@ public class DeviceService
 
     public bool borrow(long borrower,string type)
     {
-        if (get_available_devices(filter(type)).Count == 0 || !check(borrower))
+        if (get_available_devices(filter(type)).Count == 0 || !Punishment.check_border_for_a_role(borrower,_borrowings))
             {
                 Console.WriteLine("Borrow for "+borrower.ToString()+" is not available");
             return false;
@@ -150,12 +111,13 @@ public class DeviceService
             if (bor.Id == id && bor.Id_of_borrower == borrower)
             {
                 bor.Moment_when_given_back = moment;
+                Punishment punishment = new Punishment(bor);
                 if (bor.Is_given_back)
                 {
-                    bor.punishment();
-                    if (bor.Need_a_debt)
+                    punishment.punish();
+                    if (punishment.Need_a_debt)
                     {
-                        amount_of_debt+=bor.days(bor.Moment_from, bor.Moment_to)*price_for_delay;
+                        amount_of_debt+=punishment.days_of_delay(bor.Moment_from, bor.Moment_to)*price_for_delay;
                     }
                 }
 
@@ -180,7 +142,7 @@ public class DeviceService
         }
         
         
-        debts.Add(new Debt(borrower,device_identifier,amount_of_debt));
+        debts.Add(new Punishment.Debt(borrower,device_identifier,amount_of_debt));
 
     }
 
