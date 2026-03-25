@@ -9,8 +9,19 @@ public abstract class Device
         {
             return this.name;
         }
+        set { this.name = value; }
     }
-    
+
+    private long year_of_production {
+        get { return this.year_of_production; }
+        set{ this.year_of_production = value; }
+    }
+
+    private string producer
+    {
+        set { this.producer = value;}
+        get{ return this.producer;} }
+
 
 
     private string status
@@ -23,6 +34,13 @@ public abstract class Device
     private long identifier = Random.Shared.NextInt64(1000, 10000);
 
     public long Identifier{get { return this.identifier;}}
+
+    public Device(string name,string status,long year_of_production,string producer)
+    {
+        this.name =  name;
+        this.status = status;
+        
+    }
     
         
 
