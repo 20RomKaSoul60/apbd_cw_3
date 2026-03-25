@@ -40,6 +40,30 @@ public class DeviceService
         }
         return filtered_by;
     }
+
+    public bool check(long borrower)
+    {
+        bool answer = true;
+        int counter = 0;
+        foreach (var borrowing in _borrowings)
+        {
+            if (borrowing.Id_of_borrower == borrower)
+            {
+                counter++;
+            }
+        }
+
+        if (UserService.get_role(borrower) == "Student")
+        {
+            answer = counter <= 2;
+        }else if (UserService.get_role(borrower) == "Employee")
+        {
+            answer = counter <= 5;
+        }
+
+        return answer;
+
+    }
     public void addDevice(Device device)
     {
         list_of_devices.Add(device);
@@ -95,8 +119,9 @@ public class DeviceService
 
     public bool borrow(long borrower,string type)
     {
-        if (get_available_devices(filter(type)).Count == 0)
+        if (get_available_devices(filter(type)).Count == 0 || !check(borrower))
             {
+                Console.WriteLine("Borrow for "+borrower.ToString()+" is not available");
             return false;
             }
         
