@@ -3,7 +3,9 @@
 
 public abstract class Device
 {
-    private string name
+    private string name;
+    
+    public string Name
     {
         get
         {
@@ -12,12 +14,14 @@ public abstract class Device
         set { this.name = value; }
     }
 
-    private long year_of_production {
+    private long year_of_production;
+    public long YearOfProduction{
         get { return this.year_of_production; }
         set{ this.year_of_production = value; }
     }
 
-    private string producer
+    private string producer;
+    public string Producer
     {
         set { this.producer = value;}
         get{ return this.producer;} }
@@ -53,8 +57,10 @@ public abstract class Device
 
     public Device(string name,string status,long year_of_production,string producer)
     {
-        this.name =  name;
+        this.name = name;
         this.status = status;
+        this.year_of_production = year_of_production;
+        this.producer = producer;
         
     }
     

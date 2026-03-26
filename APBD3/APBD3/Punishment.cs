@@ -9,6 +9,20 @@ public class Punishment
         private long device_identifier;
         private float debt_amount;
 
+        public long Borrower
+        {
+            get { return borrower; }
+        }
+        public long DeviceIdentifier
+        {
+            get { return device_identifier; }
+        }
+        public float Debt_Amount
+        {
+            get { return debt_amount; }
+        }
+        
+
         public Debt(long identifier,long device_identifier,float amount)
         {
             this.borrower = identifier;
@@ -43,18 +57,15 @@ public class Punishment
     {
         if (!borrowing.on_time)
         {
-            if (int.Parse(borrowing.Moment_when_given_back.Split('/')[0]) > int.Parse(borrowing.Moment_to.Split('/')[0]) || int.Parse(borrowing.Moment_when_given_back.Split('/')[1]) > int.Parse(borrowing.Moment_to.Split('/')[1]))
-            {
-                need_a_debt = true;
-            }
+            need_a_debt = true;
         }
     }
     
     public int days_of_delay(string moment_from, string moment_to)
     {
         int days = 0;
-        days+= int.Parse(moment_to.Split('/')[2]) - int.Parse(moment_from.Split('/')[2]);
-        days+= int.Parse(moment_to.Split('/')[1]) - int.Parse(moment_from.Split('/')[1]);
+        days+= (int.Parse(moment_to.Split('/')[2]) - int.Parse(moment_from.Split('/')[2]))*365;
+        days+= (int.Parse(moment_to.Split('/')[1]) - int.Parse(moment_from.Split('/')[1])*30);
         days+= int.Parse(moment_to.Split('/')[0]) - int.Parse(moment_from.Split('/')[0]);
         
         

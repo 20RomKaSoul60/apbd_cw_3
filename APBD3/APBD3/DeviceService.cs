@@ -61,6 +61,20 @@ public class DeviceService
         return active_borrowings;
     }
 
+    public Punishment.Debt get_debt(long borrower)
+    {
+        Punishment.Debt this_debt = null;
+        foreach (var debt in db.Debts)
+        {
+            if (debt.Borrower == borrower)
+            {
+                this_debt = debt;
+            }
+            
+        }
+        return this_debt;
+    }
+
     public List<Borrowing> get_delayed_borrowings()
     {
         List<Borrowing> delayed = new List<Borrowing>();
@@ -74,7 +88,7 @@ public class DeviceService
         return delayed;
     }
 
-    public bool borrow(long borrower,string type)
+    public bool borrow(long id,long borrower,string type)
     {
         if (get_available_devices(filter(type)).Count == 0 || !Punishment.check_border_for_a_role(borrower,db._Borrowings))
             {
@@ -82,9 +96,9 @@ public class DeviceService
             return false;
             }
         
-        string current_date = (DateTime.Today.Date).ToString();
+        string current_date = (DateTime.Today.Date).ToString("dd/MM/yyyy");
         long device = filter(type)[0].Identifier;
-        db._Borrowings.Add(new Borrowing(borrower,device,current_date,"ACTIVE"));
+        db._Borrowings.Add(new Borrowing(id,borrower,device,current_date,"ACTIVE"));
         foreach (var dev in get_devices())
         {
             if (dev.Identifier == device)
@@ -149,6 +163,16 @@ public class DeviceService
         {
             Console.WriteLine(borrowing.toString()+"\n");
         }
+
+        Console.WriteLine("From them are in progress:\n");
+        foreach (var user in db._Users)
+        {
+            foreach (var borrowing in get_active_borrowings(user.Id))
+            {
+                Console.WriteLine("User: "+user.Id+" : "+ borrowing.toString());
+            }
+        }
+     
         Console.WriteLine("From them are delayed: "+get_delayed_borrowings().Count());
     }
 

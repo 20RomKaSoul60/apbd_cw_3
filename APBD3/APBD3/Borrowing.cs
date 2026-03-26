@@ -3,7 +3,7 @@
 public class Borrowing
 {
 
-    private long id = Random.Shared.NextInt64(1,1000);
+    private long id;
     public long Id
     {
         get { return this.id; }
@@ -95,8 +95,9 @@ public class Borrowing
 
     
 
-    public Borrowing(long borrower, long device,string moment_from,string status)
+    public Borrowing(long id,long borrower, long device,string moment_from,string status)
     {
+        this.id = id;
         this.id_of_borrower = borrower;
         this.id_of_device = device;
         this.moment_from = moment_from;

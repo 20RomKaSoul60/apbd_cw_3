@@ -7,7 +7,7 @@ public class UserService
     public void add_user(User user)
     {
         db._Users.Add(user);
-        Console.WriteLine("User names "+user.Name+" added");
+        Console.WriteLine("User names "+user.Name+" added. User names "+user.Name+" has such id: "+user.Id+" remember it !!!!!!!!");
     }
 
     public static string get_role(long id)
