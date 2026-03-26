@@ -80,7 +80,7 @@ public class DeviceService
         List<Borrowing> delayed = new List<Borrowing>();
         foreach (var borrowing in db._Borrowings)
         {
-            if(!borrowing.on_time){
+            if(!borrowing.On_time){
                 delayed.Add(borrowing);
                 
             }
@@ -96,7 +96,7 @@ public class DeviceService
             return false;
             }
         
-        string current_date = (DateTime.Today.Date).ToString("dd/MM/yyyy");
+        string current_date = DateTime.Today.Date.ToString("dd/MM/yyyy");
         long device = filter(type)[0].Identifier;
         db._Borrowings.Add(new Borrowing(id,borrower,device,current_date,"ACTIVE"));
         foreach (var dev in get_devices())

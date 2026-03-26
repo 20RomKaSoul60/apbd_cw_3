@@ -10,7 +10,7 @@ public abstract class User
         set { this.name = value; }
     }
 
-    private long id = Random.Shared.NextInt64(1,1000);
+    private long id = IdGenerator.generate();
     
     public long Id
     {

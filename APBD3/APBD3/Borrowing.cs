@@ -1,4 +1,6 @@
-﻿namespace APBD3;
+﻿using System.Runtime.InteropServices.JavaScript;
+
+namespace APBD3;
 
 public class Borrowing
 {
@@ -28,8 +30,8 @@ public class Borrowing
 
     private long id_of_device;
     public long Id_of_device{
-        get { return this.id_of_borrower; }
-        set { this.id_of_borrower = value; }
+        get { return this.id_of_device; }
+        set { this.id_of_device = value; }
     }
 
 
@@ -57,11 +59,12 @@ public class Borrowing
         set
         {
             this.moment_when_given_back = value;
-            this.is_given_back = true;
+            this.Is_given_back = true;
         }
     }
 
-    public bool on_time
+    private bool on_time;
+    public bool On_time
     {
         get { return this.on_time; }
         set { this.on_time = value; }
@@ -79,16 +82,12 @@ public class Borrowing
         set
         {
             this.is_given_back = value;
-            if (value == true)
+            if (value)
             {
-                if (this.moment_to == this.moment_when_given_back)
-                {
-                    this.on_time = true;
-                }
-                else
-                {
-                    this.on_time = false;
-                }
+                DateTime norm_fin_date = DateTime.ParseExact(moment_to,"dd/MM/yyyy",null);
+                DateTime real_fin_date = DateTime.ParseExact(moment_when_given_back,"dd/MM/yyyy",null);
+
+                this.on_time = real_fin_date <= norm_fin_date;
             }
         }
     }
@@ -101,15 +100,15 @@ public class Borrowing
         this.id_of_borrower = borrower;
         this.id_of_device = device;
         this.moment_from = moment_from;
-        this.moment_to = moment_from.Split('/')[0].Trim()
-                         +string.Join('/', int.Parse(moment_from.Split('/')[1].Trim())+1,'/')
-                         +moment_from.Split('/')[2].Trim();
+        this.moment_to = DateTime.ParseExact(moment_from,"dd/MM/yyyy",null).AddMonths(1).ToString("dd/MM/yyyy");
         this.status = status;
+        this.is_given_back = false;
+        this.on_time = false;
 
     }
-    public string toString()
+    public  string toString()
     {
-        return "Borrowing: " + this.id + ", Status: " + this.status+"\nBorrower: "+this.id_of_borrower+"\nBorrowed device: "+this.Id_of_device;
+        return "Borrowing: " + this.id + ",.\nStatus: " + this.status+"\nBorrower: "+this.id_of_borrower+"\nBorrowed device: "+this.Id_of_device;
     }
 
 

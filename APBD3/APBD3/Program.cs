@@ -72,18 +72,23 @@ public class Program
                 long your_id = long.Parse(Console.ReadLine().Trim());
                 string moment = DateTime.Today.Date.ToString("dd/MM/yyyy");
                 ds.refund(id,your_id,moment);
-                foreach (var borrowing in ds.get_delayed_borrowings())
+                if (ds.get_delayed_borrowings().Count() > 0)
                 {
-                    if (borrowing.Id_of_borrower == your_id)
+                    foreach (var borrowing in ds.get_delayed_borrowings())
                     {
-                         float amount = ds.get_debt(your_id).Debt_Amount;
-                         Console.WriteLine("User "+your_id +" refunded device not at time has debt in count of "+amount);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Everything is ok, you refunded the device at time");
+                        if (borrowing.Id_of_borrower == your_id)
+                        {
+                            float amount = ds.get_debt(your_id).Debt_Amount;
+                            Console.WriteLine("User "+your_id +" refunded device not at time has debt in count of "+amount);
+                            continue;
+                        }
                     }
                 }
+                else
+                {
+                    Console.WriteLine("Everything is ok, you refunded the device at time");   
+                }
+                
                 
             }
             else if (input == "5")

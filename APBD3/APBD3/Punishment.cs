@@ -1,3 +1,6 @@
+using System.Globalization;
+using System.Runtime.InteropServices.JavaScript;
+
 namespace APBD3;
 
 public class Punishment
@@ -55,7 +58,7 @@ public class Punishment
     
     public void punish()
     {
-        if (!borrowing.on_time)
+        if (!borrowing.On_time)
         {
             need_a_debt = true;
         }
@@ -63,13 +66,12 @@ public class Punishment
     
     public int days_of_delay(string moment_from, string moment_to)
     {
-        int days = 0;
-        days+= (int.Parse(moment_to.Split('/')[2]) - int.Parse(moment_from.Split('/')[2]))*365;
-        days+= (int.Parse(moment_to.Split('/')[1]) - int.Parse(moment_from.Split('/')[1])*30);
-        days+= int.Parse(moment_to.Split('/')[0]) - int.Parse(moment_from.Split('/')[0]);
+        
+        DateTime fromdate = DateTime.ParseExact(moment_from, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        DateTime todate = DateTime.ParseExact(moment_to, "dd/MM/yyyy", CultureInfo.InvariantCulture);
         
         
-        return days;
+        return  (todate - fromdate).Days;
     }
     
     public static bool check_border_for_a_role(long borrower,List<Borrowing> borrowings)

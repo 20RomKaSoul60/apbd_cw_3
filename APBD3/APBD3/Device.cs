@@ -51,7 +51,7 @@ public abstract class Device
     }
 
 
-    private long identifier = Random.Shared.NextInt64(1000, 10000);
+    private long identifier = IdGenerator.generate();
 
     public long Identifier{get { return this.identifier;}}
 
